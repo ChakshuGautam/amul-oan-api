@@ -17,6 +17,7 @@ from agents.tools.conversation_state import signal_conversation_state
 from agents.tools.common import fire_tool_call_nudge
 from agents.tools.farmer_cached import get_farmer_profile, get_herd_summary, list_animal_tags
 from agents.tools.loan import check_loan_eligibility, prepare_check_loan_eligibility
+from agents.tools.scheme_details import get_scheme_details
 # from agents.tools.animal import get_animal_by_tag
 # from agents.tools.cvcc import get_cvcc_health_details
 # from agents.tools.farmer import get_farmer_by_mobile
@@ -75,6 +76,14 @@ TOOLS = [
         takes_ctx=True,
         docstring_format='auto',
         prepare=prepare_check_loan_eligibility,  # hidden unless feature on + caller phone resolved
+    ),
+
+    # Scheme details via Amul Beckn BAP (Bharat Vistaar)
+    Tool(
+        get_scheme_details,
+        takes_ctx=False,
+        docstring_format='auto',
+        require_parameter_descriptions=True,
     ),
 
     # # Get Animal by Tag (temporarily disabled)
