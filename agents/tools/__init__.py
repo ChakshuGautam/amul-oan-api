@@ -17,6 +17,12 @@ from agents.tools.conversation_state import signal_conversation_state
 from agents.tools.common import fire_tool_call_nudge
 from agents.tools.farmer_cached import get_farmer_profile, get_herd_summary, list_animal_tags
 from agents.tools.loan import check_loan_eligibility, prepare_check_loan_eligibility
+from agents.tools.scheme_details import get_scheme_details
+from agents.tools.vistaar import (
+    get_vistaar_weather,
+    get_vistaar_mandi_prices,
+    get_vistaar_scheme_info,
+)
 # from agents.tools.animal import get_animal_by_tag
 # from agents.tools.cvcc import get_cvcc_health_details
 # from agents.tools.farmer import get_farmer_by_mobile
@@ -75,6 +81,37 @@ TOOLS = [
         takes_ctx=True,
         docstring_format='auto',
         prepare=prepare_check_loan_eligibility,  # hidden unless feature on + caller phone resolved
+    ),
+
+    # Scheme details via Amul Beckn BAP (Bharat Vistaar)
+    # DISABLED (2026-07-17): superseded by get_vistaar_scheme_info, which routes
+    # schemes through the canonical Beckn seeker (N-N). Re-enabling this would
+    # let the LLM pick the old direct-sandbox path (bap.dev.amulai.in) instead.
+    # Tool(
+    #     get_scheme_details,
+    #     takes_ctx=False,
+    #     docstring_format='auto',
+    #     require_parameter_descriptions=True,
+    # ),
+
+    # Bharat Vistaar discovery — weather, mandi prices, scheme info (Beckn shortcut)
+    Tool(
+        get_vistaar_weather,
+        takes_ctx=False,
+        docstring_format='auto',
+        require_parameter_descriptions=True,
+    ),
+    Tool(
+        get_vistaar_mandi_prices,
+        takes_ctx=False,
+        docstring_format='auto',
+        require_parameter_descriptions=True,
+    ),
+    Tool(
+        get_vistaar_scheme_info,
+        takes_ctx=False,
+        docstring_format='auto',
+        require_parameter_descriptions=True,
     ),
 
     # # Get Animal by Tag (temporarily disabled)
